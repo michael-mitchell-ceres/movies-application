@@ -11,9 +11,6 @@ sayHello('World');
  */
 const {getMovies} = require('./api.js');
 
-
-
-
 getMovies().then((movies) => {
   console.log('Here are all the movies:');
   console.log(movies);
@@ -26,9 +23,9 @@ getMovies().then((movies) => {
 
 
         htmlBuild += "<div id= movie-display>";
-        htmlBuild += "<h1> Title: </h1>";
+        htmlBuild += "<p> Title: </p>";
         htmlBuild += `<p> ${title} </p>`;
-        htmlBuild += "<h1> rating: </h1>";
+        htmlBuild += "<p> rating: </p>";
         htmlBuild += `<p>  ${rating} </p>`;
         htmlBuild += "</div>";
 
@@ -44,8 +41,7 @@ getMovies().then((movies) => {
 }).then(() =>
 
     loading.style.display = 'none',
-    title.style.display = "none",
-    rating.style.display = "none"
+    title.style.display = "none"
 
 ).then(() =>
 
@@ -63,11 +59,39 @@ getMovies().then((movies) => {
 getMovies().then((movies) =>
 
 
-    title.style.display = "block",
-    rating.style.display = "block"
+    title.style.display = "block"
 
 
 );
+
+
+$('#user-add').click(function () {
+
+
+  const input = $('#input').val();
+
+  const input1 = $('#input1').val();
+
+  const blogPost = {
+    title: input,
+    rating: input1
+  };
+
+  // const url = '/posts';
+
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(blogPost),
+  };
+  fetch('/api/movies', options)
+      .then(/* post was created successfully */)
+      .catch(() => alert('Error please try again'));
+  $('#container').append(`<div> <p>Title: ${input}</p> <p> Rating: ${input1}</p> </div>  `);
+});
 
 
 
