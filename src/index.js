@@ -45,7 +45,7 @@ getMovies().then((movies) => {
 
     loading.style.display = 'none',
     title.style.display = "none",
-    rating.style.display = "none"
+
 
 ).then(() =>
 
@@ -64,7 +64,7 @@ getMovies().then((movies) =>
 
 
     title.style.display = "block",
-    rating.style.display = "block"
+
 
 
 );
