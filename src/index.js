@@ -9,6 +9,9 @@ sayHello('World');
  */
 const {getMovies} = require('./api.js');
 
+
+
+
 getMovies().then((movies) => {
   console.log('Here are all the movies:');
   movies.forEach(({title, rating, id}) => {
@@ -17,4 +20,18 @@ getMovies().then((movies) => {
 }).catch((error) => {
   alert('Oh no! Something went wrong.\nCheck the console for details.')
   console.log(error);
-});
+}).then(() =>
+
+    loading.style.display = 'none',
+
+
+
+).then(() =>
+
+    load.style.display = 'none'
+
+).then(() =>
+
+    container.style.display = 'block'
+
+);
