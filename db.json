@@ -1,39 +1,14 @@
 {
   "movies": [
     {
-      "title": "Casablanca",
-      "rating": "4",
+      "title": "Star Wars: A New Hope Directors Cut ultimate",
+      "rating": "3",
       "id": 1
     },
     {
-      "title": "Star Wars: A New Hope",
-      "rating": "5",
+      "title": "sims",
+      "rating": "4",
       "id": 2
-    },
-    {
-      "title": "",
-      "rating": "",
-      "id": 3
-    },
-    {
-      "title": "",
-      "rating": "",
-      "id": 4
-    },
-    {
-      "title": "",
-      "rating": "",
-      "id": 5
-    },
-    {
-      "title": "",
-      "rating": "",
-      "id": 6
-    },
-    {
-      "title": "",
-      "rating": "",
-      "id": 7
     }
   ]
 }

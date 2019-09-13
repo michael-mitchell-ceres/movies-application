@@ -2,12 +2,6 @@
 
 const {getMovies} = require('./api.js');
 
-
-
-
-
-
-
       function renderMovies(movies) {
 
         let htmlBuild = "";
@@ -25,13 +19,12 @@ const {getMovies} = require('./api.js');
 
 
         });
-        console.log(htmlBuild);
         return htmlBuild;
       }
 
       getMovies().then((movies) => {
 
-        $('#container').append(renderMovies);
+        $('#container').append(renderMovies(movies));
 
 
       }).catch((error) => {
@@ -49,18 +42,21 @@ const {getMovies} = require('./api.js');
           container.style.display = 'block'
       );
 
-
 ////////////////// create new //////////////////
 
       getMovies().then((movies) => {
 
-        title.style.display = "block"
+        title.style.display = "block";
+
       });
 
 
+$('#user-add').on('click', function () {
       const input = $('#input').val();
 
       const input1 = $('#input1').val();
+
+      const url = '/api/movies';
 
       const blogPost = {
         title: input,
@@ -75,32 +71,70 @@ const {getMovies} = require('./api.js');
         },
         body: JSON.stringify(blogPost),
       };
-      fetch('/api/movies', options)
-          .then(getMovies)
-          .then(renderMovies)
-          .catch(() => alert('Error please try again')
+      fetch(url, options);
+      getMovies()
+        .then((movies) => {$('#container').html(renderMovies(movies))})
+        .catch(() => alert('Error please try again'));
+});
+
+/////////////////////////// EDIT MOVIES /////////////////////////////////////////////////////
 
 
-    );
-  // const url = '/posts';
+$('#user-edit').on('click', function () {
+
+  function editNow(){
+
+    const input3 = $('#input3').val();
+    const input4 = $('#input4').val();
+    const input5 = $('#input5').val();
+
+    const blogPost = {
+      title: input3,
+      rating: input4,
+      id: input5
+    };
+
+    const url = `/api/movies/${input5}`;
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(blogPost),
+    };
+    fetch(url, options);
+    getMovies()
+        .then((movies) => {$('#container').html(renderMovies(movies))})
+        .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+
+  }
+  editNow();
+});
 
 
+/////////////////////////// DELETE /////////////////////////////////////////////////
 
+$('#user-delete').on('click', function () {
 
+function beGone(){
 
+  const input2 = $('#input2').val();
 
+  const url = `/api/movies/${input2}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  fetch(url, options);
+      getMovies()
+      .then((movies) => {$('#container').html(renderMovies(movies))})
+      .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
 
-
-
-
-
-
-
-
-
-
-
-
+}
+beGone();
+});
 
 
 /////////////////////////////// notes ////////////////////////
