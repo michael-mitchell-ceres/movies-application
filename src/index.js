@@ -3,55 +3,59 @@
 /**
  * es6 modules and imports
  */
-import sayHello from './hello';
-sayHello('World');
+
 
 /**
  * require style imports
  */
 const {getMovies} = require('./api.js');
 
-getMovies().then((movies) => {
-  console.log('Here are all the movies:');
-  console.log(movies);
+
+
 
     $(document).ready(function () {
-      let htmlBuild = "";
 
-      movies.forEach(({title, rating, id}) => {
-        console.log(`id#${id} - ${title} - rating: ${rating}`);
+      function renderMovies(movies) {
+        let htmlBuild = "";
 
-
-        htmlBuild += "<div id= movie-display>";
-        htmlBuild += "<p> Title: </p>";
-        htmlBuild += `<p> ${title} </p>`;
-        htmlBuild += "<p> rating: </p>";
-        htmlBuild += `<p>  ${rating} </p>`;
-        htmlBuild += "</div>";
+        movies.forEach(({title, rating, id}) => {
+          // console.log(`id#${id} - ${title} - rating: ${rating}`);
 
 
-      });
-      $('#container').html(htmlBuild);
-  });
+          htmlBuild += "<div id= movie-display>";
+          htmlBuild += "<p> Title: </p>";
+          htmlBuild += `<p> ${title} </p>`;
+          htmlBuild += "<p> rating: </p>";
+          htmlBuild += `<p>  ${rating} </p>`;
+          htmlBuild += "</div>";
 
 
-}).catch((error) => {
-  alert('Oh no! Something went wrong.\nCheck the console for details.');
-  console.log(error);
-}).then(() =>
+        });
+        return htmlBuild;
+      };
 
-    loading.style.display = 'none',
-    title.style.display = "none"
+      getMovies().then((movies) => {
+        // console.log('Here are all the movies:');
+        // console.log(movies);
 
-).then(() =>
 
-    load.style.display = 'none'
+        $('#container').html(htmlBuild);
 
-).then(() =>
+  }).catch((error) => {
+    alert('Oh no! Something went wrong.\nCheck the console for details.');
+    console.log(error);
+  }).then(() =>
 
-    container.style.display = 'block'
+          loading.style.display = 'none',
+      title.style.display = "none"
+  ).then(() =>
 
-);
+      load.style.display = 'none'
+  ).then(() =>
+
+      container.style.display = 'block'
+  )});
+
 
 
 ////////////////// create new //////////////////
@@ -77,7 +81,13 @@ $('#user-add').click(function () {
     rating: input1
   };
 
-  // const url = '/posts';
+// getMovies().then((blogPost) =>
+//
+//  // container.append = `<div> <p>Title: ${input}</p> <p> Rating: ${input1}</p> </div>`
+//
+//   // $('#container').append(userMovie)
+// );
+
 
 
   const options = {
@@ -88,9 +98,17 @@ $('#user-add').click(function () {
     body: JSON.stringify(blogPost),
   };
   fetch('/api/movies', options)
-      .then(/* post was created successfully */)
+      .then(getMovies)
+      .then(renderMovies)
       .catch(() => alert('Error please try again'));
-  $('#container').append(`<div> <p>Title: ${input}</p> <p> Rating: ${input1}</p> </div>  `);
+
+  // const url = '/posts';
+
+
+
+
+
+
 });
 
 
