@@ -1,25 +1,19 @@
 "use strict";
 
-/**
- * es6 modules and imports
- */
-
-
-/**
- * require style imports
- */
 const {getMovies} = require('./api.js');
 
 
 
 
-    $(document).ready(function () {
+
+
 
       function renderMovies(movies) {
+
         let htmlBuild = "";
 
-        movies.forEach(({title, rating, id}) => {
-          // console.log(`id#${id} - ${title} - rating: ${rating}`);
+        movies.forEach(({title, rating}) => {
+
 
 
           htmlBuild += "<div id= movie-display>";
@@ -31,85 +25,64 @@ const {getMovies} = require('./api.js');
 
 
         });
+        console.log(htmlBuild);
         return htmlBuild;
-      };
+      }
 
       getMovies().then((movies) => {
-        // console.log('Here are all the movies:');
-        // console.log(movies);
+
+        $('#container').append(renderMovies);
 
 
-        $('#container').html(htmlBuild);
+      }).catch((error) => {
+        alert('Oh no! Something went wrong.\nCheck the console for details.');
+        console.log(error);
+      }).then(() =>
 
-  }).catch((error) => {
-    alert('Oh no! Something went wrong.\nCheck the console for details.');
-    console.log(error);
-  }).then(() =>
+              loading.style.display = 'none',
+          title.style.display = "none"
+      ).then(() =>
 
-          loading.style.display = 'none',
-      title.style.display = "none"
-  ).then(() =>
+          load.style.display = 'none'
+      ).then(() =>
 
-      load.style.display = 'none'
-  ).then(() =>
-
-      container.style.display = 'block'
-  )});
-
+          container.style.display = 'block'
+      );
 
 
 ////////////////// create new //////////////////
 
-getMovies().then((movies) =>
+      getMovies().then((movies) => {
+
+        title.style.display = "block"
+      });
 
 
-    title.style.display = "block"
+      const input = $('#input').val();
+
+      const input1 = $('#input1').val();
+
+      const blogPost = {
+        title: input,
+        rating: input1
+      };
 
 
-);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(blogPost),
+      };
+      fetch('/api/movies', options)
+          .then(getMovies)
+          .then(renderMovies)
+          .catch(() => alert('Error please try again')
 
 
-$('#user-add').click(function () {
-
-
-  const input = $('#input').val();
-
-  const input1 = $('#input1').val();
-
-  const blogPost = {
-    title: input,
-    rating: input1
-  };
-
-// getMovies().then((blogPost) =>
-//
-//  // container.append = `<div> <p>Title: ${input}</p> <p> Rating: ${input1}</p> </div>`
-//
-//   // $('#container').append(userMovie)
-// );
-
-
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(blogPost),
-  };
-  fetch('/api/movies', options)
-      .then(getMovies)
-      .then(renderMovies)
-      .catch(() => alert('Error please try again'));
-
+    );
   // const url = '/posts';
-
-
-
-
-
-
-});
 
 
 
@@ -188,3 +161,120 @@ $('#user-add').click(function () {
 //   arrangeCoffees();
 //   showAllCoffees();
 // }
+
+
+
+
+
+
+
+
+
+// onst $ = require('jquery')
+// /**
+//  * es6 modules and imports
+//  */
+// import sayHello from './hello';
+// sayHello('World');
+//
+// /**
+//  * require style imports
+//  */
+// const {getMovies} = require('./api.js');
+//
+// function refreshMovies(){
+//   getMovies().then((movies) => {
+//     $('#loading').html('');
+//
+//     console.log('Here are all the movies:');
+//     movies.forEach(({title, rating, id}) => {
+//       let movieItems = '';
+//
+//       movieItems += `<div class="card">
+//                         <div class="card-body">
+//                             <h4 class="card-title"> ${title}</h4>
+//                             <div class="card-text">
+//                             Rating: ${rating}
+//                             </div>
+//                             <button class="editButton">Edit Movies</button>
+//                             <div class="editBox">
+//                               <input class="editMovie" type="text">
+//                               <select name="editRating" class="editRating">
+//                                 <option value="1">1</option>
+//                                 <option value="2">2</option>
+//                                 <option value="3">3</option>
+//                                 <option value="4">4</option>
+//                                 <option value="5">5</option>
+//                               </select>
+//                               <button class="submitMovieEdit">Submit Changes</button>
+//                             </div>
+//                         </div>
+//                     </div>`;
+//
+//       $('.movies').append(movieItems);
+//       console.log(title, rating, id);
+//     });
+//     $(".editBox").hide(); // Hide edit input and select on load
+//
+//     $('.editButton').on('click', function () {
+//       // console.log('Fired!')
+//       $(this).next().slideToggle();
+//     });
+//
+//
+//   })
+//       .catch((error) => {
+//         alert('Oh no! Something went wrong.\nCheck the console for details.');
+//         console.log(error);
+//       });
+
+// } // End of refreshMovies
+//
+// refreshMovies(); //Initial call
+//
+// function newMovie(movieTitle, movieRating) {
+//
+//   const blogPost = {title: movieTitle, rating: movieRating};
+//   const url = '/api/movies';
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(blogPost),
+//   };
+//   fetch(url, options)
+//       .then( (data) => console.log('Post was successful', data)/* post was created successfully */)
+//       .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+//
+//
+//   refreshMovies(); // Updates movies when submit is clicked
+//   $('#movieTitle').val(''); // Clears out the input
+//   $('#rating').val(''); // Clears out the drop down
+// } // End of newMovie()
+//
+//
+// // newMovie($('#movieTitle').val(), $('#rating').val() )
+//
+//
+//
+// $('#btn').on('click',() => newMovie($('#movieTitle').val(), $('#rating').val()) );
+//
+// function modify(){
+//   const blogPost = {title: 'Star Wars: A New Hope Directors Cut', rating: '4'};
+//   const url = '/api/movies/1';
+//   const options = {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(blogPost),
+//   };
+//   fetch(url, options)
+//       .then( (data) => console.log('Post was successful', data)/* post was created successfully */)
+//       .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+//
+// }
+
+
+// $('.btn').on('click',() =>  console.log('FIRE!!!'));
