@@ -6,15 +6,16 @@ const {getMovies} = require('./api.js');
 
         let htmlBuild = "";
 
-        movies.forEach(({title, rating}) => {
+        movies.forEach(({title, rating, id}) => {
 
 
 
-          htmlBuild += "<div id= movie-display>";
+          htmlBuild += `<div id= ${id}>`;
           htmlBuild += "<p> Title: </p>";
           htmlBuild += `<p> ${title} </p>`;
           htmlBuild += "<p> rating: </p>";
           htmlBuild += `<p>  ${rating} </p>`;
+          htmlBuild += `<button class="delete-button">DELETE ${id}</button>`;
           htmlBuild += "</div>";
 
 
@@ -23,8 +24,13 @@ const {getMovies} = require('./api.js');
       }
 
       getMovies().then((movies) => {
+        $('.delete-button').on('click', function () {
+          console.log(id);
+          beGone($(this).attr('id'))
+        });
 
         $('#container').append(renderMovies(movies));
+
 
 
       }).catch((error) => {
@@ -114,13 +120,11 @@ $('#user-edit').on('click', function () {
 
 /////////////////////////// DELETE /////////////////////////////////////////////////
 
-$('#user-delete').on('click', function () {
+function beGone(id){
 
-function beGone(){
+  // const input2 = $('#input2').val();
 
-  const input2 = $('#input2').val();
-
-  const url = `/api/movies/${input2}`;
+  const url = `/api/movies/${id}`;
   const options = {
     method: 'DELETE',
     headers: {
@@ -133,9 +137,12 @@ function beGone(){
       .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
 
 }
-beGone();
-});
 
+$('#user-delete').on('click', function () {
+//  need to pass the id number to the begone function
+beGone(2)
+
+});
 
 /////////////////////////////// notes ////////////////////////
 //
