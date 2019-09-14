@@ -2,7 +2,6 @@
 
 const {getMovies} = require('./api.js');
 
-
       function renderMovies(movies) {
 
         let htmlBuild = "";
