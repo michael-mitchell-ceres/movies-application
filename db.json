@@ -1,14 +1,9 @@
 {
   "movies": [
     {
-      "title": "Star Wars: A New Hope Directors Cut ultimate",
+      "title": "hello",
       "rating": "3",
       "id": 1
-    },
-    {
-      "title": "hello",
-      "rating": "4",
-      "id": 2
     }
   ]
 }
