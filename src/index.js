@@ -2,11 +2,13 @@
 
 const {getMovies} = require('./api.js');
 
+
       function renderMovies(movies) {
 
         let htmlBuild = "";
 
         movies.forEach(({title, rating, id}) => {
+
 
 
 
