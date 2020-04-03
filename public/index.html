@@ -3,68 +3,38 @@
 <head>
     <meta charset="UTF-8" />
     <title>My Application</title>
+    <!--    Bootstrap 4-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Rubik+Mono+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css" />
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-
 </head>
 <body>
-<!--/////////////////////////////loader-spinner/////////////////////////////-->
-    <div id="loading" class="loader">
-    </div>
-
-    <div id="load">
-    <h1 class="loading">Loading...</h1>
-    </div>
-
-
-<!--///////////////////////////// movie-display /////////////////////////////-->
-<div id="container" class="container">
-<!--...default movie content...-->
-<!--...assigned by development team...-->
-
+<header>
+</header>
+<div class="container-box">
+    <div class="movies " ></div>
+    <span class="addMovieInputs">
+            <div class="card add-card">
+                <div class="card-body">
+                    <label for="movieTitle">Add New Movie</label>
+                    <input class="form-control form-control-sm" type="text" id="movieTitle" placeholder="Add Movie Title...">
+                    <label id="rating-label" for="rating">Movie Rating</label>
+                    <select class="custom-select" name="rating" id="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button class=" btn btn-primary addMovieBtn" id="addMovieBtn ">Submit</button>
+                 </div>
+            </div>
+        </span>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-<!--///////////////////////////// add new  /////////////////////////////-->
-<div id="title">
-<label>Add Movie:
-<input id="input" name="title" placeholder="Title">
-<input id="input1" name="rating" placeholder="Rating" >
-<button id="user-add" type="submit" >Click to add</button>
-</label>
-</div>
-
-<div id="edit">
-    <label>Edit Movie:
-        <input id="input3" name="title" placeholder="Title">
-        <input id="input4" name="rating" placeholder="Rating" >
-        <input id="input5" name="title" placeholder="ID">
-        <button id="user-edit" type="submit" >Click to edit</button>
-    </label>
-</div>
-
-
-<div id="modify">
-    <label>Delete Movie:
-        <input id="input2" name="title" placeholder="ID">
-        <button id="user-delete" type="submit" >DELETE</button>
-    </label>
-</div>
-
-
-
-
-    <script src="./main.js"></script>
+<!--    Bootstrap 4 JS files-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!--    Custom JS -->
+<script src="./main.js"></script>
 </body>
 </html>
