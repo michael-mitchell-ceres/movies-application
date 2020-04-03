@@ -2,222 +2,320 @@
 
 const {getMovies} = require('./api.js');
 
-function renderMovies(movies) {
+      function renderMovies(movies) {
 
-    getMovies().then((movies) => {
+        let htmlBuild = "";
 
-        $('#loading').html('').css('display', 'none');
-        $('.movies').html('');
+        movies.forEach(({title, rating, id}) => {
 
-        $('.addMovieInputs').css('display', 'block').css('text-align', 'center');
 
-        movies.forEach(({title, rating, id})=> {
-            let movieItems = '';
 
-            movieItems += `<div class="card">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center p-1">
-                                    <h4 class="card-title"> ${title}</h4>
-                                        <div class="mt-auto">
-                                            <div class="card-text ">
-                                                    Rating: ${rating}
-                                            </div>
-                                <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary editBtn justify-content-end" data-toggle="modal" data-target="#exampleModal">
-                                                Edit
-                                            </button>
-                                        </div>
-                            </div>`;
-            $('.movies').append(movieItems);
-            })
-    });
+          htmlBuild += `<div id= ${id}>`;
+          htmlBuild += "<p> Title: </p>";
+          htmlBuild += `<p> ${title} </p>`;
+          htmlBuild += "<p> rating: </p>";
+          htmlBuild += `<p>  ${rating} </p>`;
+          htmlBuild += `<button class="delete-button">DELETE ${id}</button>`;
+          htmlBuild += "</div>";
+
+
+        });
+        return htmlBuild;
+      }
+
+      getMovies().then((movies) => {
+        $('.delete-button').on('click', function () {
+          console.log(id);
+          beGone($(this).attr('id'))
+        });
+
+        $('#container').append(renderMovies(movies));
+
+
+
+      }).catch((error) => {
+        alert('Oh no! Something went wrong.\nCheck the console for details.');
+        console.log(error);
+      }).then(() =>
+
+              loading.style.display = 'none',
+          title.style.display = "none"
+      ).then(() =>
+
+          load.style.display = 'none'
+      ).then(() =>
+
+          container.style.display = 'block'
+      );
+
+////////////////// create new //////////////////
+
+      getMovies().then((movies) => {
+
+        title.style.display = "block";
+
+      });
+
+
+$('#user-add').on('click', function () {
+      const input = $('#input').val();
+
+      const input1 = $('#input1').val();
+
+      const url = '/api/movies';
+
+      const blogPost = {
+        title: input,
+        rating: input1
+      };
+
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(blogPost),
+      };
+      fetch(url, options);
+      getMovies()
+        .then((movies) => {$('#container').html(renderMovies(movies))})
+        .catch(() => alert('Error please try again'));
+});
+
+/////////////////////////// EDIT MOVIES /////////////////////////////////////////////////////
+
+
+$('#user-edit').on('click', function () {
+
+  function editNow(){
+
+    const input3 = $('#input3').val();
+    const input4 = $('#input4').val();
+    const input5 = $('#input5').val();
+
+    const blogPost = {
+      title: input3,
+      rating: input4,
+      id: input5
+    };
+
+    const url = `/api/movies/${input5}`;
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(blogPost),
+    };
+    fetch(url, options);
+    getMovies()
+        .then((movies) => {$('#container').html(renderMovies(movies))})
+        .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+
+  }
+  editNow();
+});
+
+
+/////////////////////////// DELETE /////////////////////////////////////////////////
+
+function beGone(id){
+
+  // const input2 = $('#input2').val();
+
+  const url = `/api/movies/${id}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  fetch(url, options);
+      getMovies()
+      .then((movies) => {$('#container').html(renderMovies(movies))})
+      .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+
 }
 
+$('#user-delete').on('click', function () {
+//  need to pass the id number to the begone function
+beGone(2)
 
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     let htmlBuild = "";
+/////////////////////////////// notes ////////////////////////
 //
-//     movies.forEach(({title, rating, id}) => {
+// function renderCoffee(coffee) {
 //
-//
-//
-//         htmlBuild += `<div id= ${id}>`;
-//         htmlBuild += "<p> Title: </p>";
-//         htmlBuild += `<p> ${title} </p>`;
-//         htmlBuild += "<p> rating: </p>";
-//         htmlBuild += `<p>  ${rating} </p>`;
-//         htmlBuild += `<button class="delete-button">DELETE ${id}</button>`;
-//         htmlBuild += "</div>";
-//
-//
-//     });
-//     return htmlBuild;
+//   var html = '';
+//   html += '<div class="col s6 roast-out"><h5 class="coffee-name text">' + coffee.name;
+//   html += ' <small class="coffee-roast">' + coffee.roast + '</small></h5></div>';
+//   return html;
 // }
 //
-// getMovies().then((movies) => {
-//     $('.delete-button').on('click', function () {
-//         console.log(id);
-//         beGone($(this).attr('id'))
+// function renderCoffees(coffees) {
+//   var html = '<div>';
+//   for (var i = coffees.length - 1; i >= 0; i--) {
+//     html += renderCoffee(coffees[i]);
+//     html += '</div>'
+//   }
+//   return html;
+// }
+//
+// function updateCoffees(e) {
+//   var selectedRoast = roastSelection.value;
+//   var filteredCoffees = [];
+//   if (e === 'all') {
+//     coffees.forEach(function (coffee) {
+//       filteredCoffees.push(coffee);
+//     })
+//   } else coffees.forEach(function (coffee) {
+//     if (coffee.roast === selectedRoast) {
+//       filteredCoffees.push(coffee);
+//     }
+//   });
+//   content.innerHTML = renderCoffees(filteredCoffees);
+// }
+//
+// function searchCoffees(value) {
+//   var filteredCoffees = [];
+//   for (var i = 0; i < coffees.length; i++) {
+//     if (coffees[i].name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+//       filteredCoffees.push(coffees[i]);
+//     }
+//   }
+//   content.innerHTML = renderCoffees(filteredCoffees);
+// }
+//
+// function addCoffee() {
+//   var coffee = {
+//     id: '',
+//     name: '',
+//     roast: ''
+//   };
+//   var temp = document.getElementById('add-coffee-name').value;
+//   coffee.id = coffees.length + 1;
+//   coffee.name = formatNewCoffee(temp);
+//   coffee.roast = document.getElementById('add-coffee-roast-select').value;
+//   coffees.push(coffee);
+//   arrangeCoffees();
+//   showAllCoffees();
+// }
+
+
+
+
+
+
+
+
+
+// onst $ = require('jquery')
+// /**
+//  * es6 modules and imports
+//  */
+// import sayHello from './hello';
+// sayHello('World');
+//
+// /**
+//  * require style imports
+//  */
+// const {getMovies} = require('./api.js');
+//
+// function refreshMovies(){
+//   getMovies().then((movies) => {
+//     $('#loading').html('');
+//
+//     console.log('Here are all the movies:');
+//     movies.forEach(({title, rating, id}) => {
+//       let movieItems = '';
+//
+//       movieItems += `<div class="card">
+//                         <div class="card-body">
+//                             <h4 class="card-title"> ${title}</h4>
+//                             <div class="card-text">
+//                             Rating: ${rating}
+//                             </div>
+//                             <button class="editButton">Edit Movies</button>
+//                             <div class="editBox">
+//                               <input class="editMovie" type="text">
+//                               <select name="editRating" class="editRating">
+//                                 <option value="1">1</option>
+//                                 <option value="2">2</option>
+//                                 <option value="3">3</option>
+//                                 <option value="4">4</option>
+//                                 <option value="5">5</option>
+//                               </select>
+//                               <button class="submitMovieEdit">Submit Changes</button>
+//                             </div>
+//                         </div>
+//                     </div>`;
+//
+//       $('.movies').append(movieItems);
+//       console.log(title, rating, id);
+//     });
+//     $(".editBox").hide(); // Hide edit input and select on load
+//
+//     $('.editButton').on('click', function () {
+//       // console.log('Fired!')
+//       $(this).next().slideToggle();
 //     });
 //
-//     $('#container').append(renderMovies(movies));
+//
+//   })
+//       .catch((error) => {
+//         alert('Oh no! Something went wrong.\nCheck the console for details.');
+//         console.log(error);
+//       });
+
+// } // End of refreshMovies
+//
+// refreshMovies(); //Initial call
+//
+// function newMovie(movieTitle, movieRating) {
+//
+//   const blogPost = {title: movieTitle, rating: movieRating};
+//   const url = '/api/movies';
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(blogPost),
+//   };
+//   fetch(url, options)
+//       .then( (data) => console.log('Post was successful', data)/* post was created successfully */)
+//       .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
+//
+//
+//   refreshMovies(); // Updates movies when submit is clicked
+//   $('#movieTitle').val(''); // Clears out the input
+//   $('#rating').val(''); // Clears out the drop down
+// } // End of newMovie()
+//
+//
+// // newMovie($('#movieTitle').val(), $('#rating').val() )
 //
 //
 //
-// }).catch((error) => {
-//     alert('Oh no! Something went wrong.\nCheck the console for details.');
-//     console.log(error);
-// }).then(() =>
+// $('#btn').on('click',() => newMovie($('#movieTitle').val(), $('#rating').val()) );
 //
-//         loading.style.display = 'none',
-//     title.style.display = "none"
-// ).then(() =>
+// function modify(){
+//   const blogPost = {title: 'Star Wars: A New Hope Directors Cut', rating: '4'};
+//   const url = '/api/movies/1';
+//   const options = {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(blogPost),
+//   };
+//   fetch(url, options)
+//       .then( (data) => console.log('Post was successful', data)/* post was created successfully */)
+//       .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
 //
-//     load.style.display = 'none'
-// ).then(() =>
-//
-//     container.style.display = 'block'
-// );
-//
-// ////////////////// create new //////////////////
-//
-// getMovies().then((movies) => {
-//
-//     title.style.display = "block";
-//
-// });
-//
-//
-// $('#user-add').on('click', function () {
-//     const input = $('#input').val();
-//
-//     const input1 = $('#input1').val();
-//
-//     const url = '/api/movies';
-//
-//     const blogPost = {
-//         title: input,
-//         rating: input1
-//     };
-//
-//
-//     const options = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(blogPost),
-//     };
-//     fetch(url, options);
-//     getMovies()
-//         .then((movies) => {$('#container').html(renderMovies(movies))})
-//         .catch(() => alert('Error please try again'));
-// });
-//
-// /////////////////////////// EDIT MOVIES /////////////////////////////////////////////////////
-//
-//
-// $('.editBtn').on('click', function () {
-//     let targetedMovieTitle = $(this).parents('.card-body').children('.card-title').text();
-//
-//     // Adds movie title to the modal input value
-//     $('#editTitle').val(targetedMovieTitle.trim());
-//
-//
-//     function getIdNumber() {
-//         return fetch('api/movies').then(data => {
-//             return data.json()
-//         })
-//             .then(data => {
-//                 for (let i = 0; i < data.length; i++) {
-//                     if (data[i].title === targetedMovieTitle.slice(1)) {
-//                         return data[i].id
-//                     }
-//                 }
-//             });
-//     }
-//
-//
-// /////////////////////////// DELETE /////////////////////////////////////////////////
-//
-//     function beGone(id){
-//
-//         // const input2 = $('#input2').val();
-//
-//         const url = `/api/movies/${id}`;
-//         const options = {
-//             method: 'DELETE',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         };
-//         fetch(url, options);
-//         getMovies()
-//             .then((movies) => {$('#container').html(renderMovies(movies))})
-//             .catch( (data) => console.log('Post unsuccessful', data) /* handle errors */);
-//
-//     }
-//
-//     $('#user-delete').on('click', function () {
-// //  need to pass the id number to the begone function
-//         beGone();
-//
-//     });
-// });
+// }
+
+
+// $('.btn').on('click',() =>  console.log('FIRE!!!'));
